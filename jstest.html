@@ -1,0 +1,63 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ITL Support ToolBox</title>
+    <link rel="icon" href="itl_icon.ico" type="image/vnd.microsoft.icon"></link>
+    <link rel="stylesheet" href="/style_tabs.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/tabs.js"></script>
+    <script src="/toclipboard.js"></script>
+    <!-- <script src="/num_processing.js"></script> -->
+    <script src="/functions.js"></script>
+    <script src="/eventHandler.js"></script>
+    <script src="/cdata.js"></script>
+    <style type="text/css">
+    .window1 {
+        min-height: 600px;
+        width: 1000px;
+        background-color: lightgray;
+        border: thin solid black;
+        border-radius: 5px;
+        position: absolute;
+        margin: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        box-shadow: 5px 5px 15px black;
+    }
+    .close {
+        height: 25px;
+        width: 25px;
+        position: absolute;
+        top: 10px;
+        left: 610px;
+        transition-duration: 400ms;
+    }
+    .close:hover {
+        height: 30px;
+        width: 30px;
+        transition-duration: 400ms;
+    }
+    #tree {
+        background-color: rgb(73,86,92);
+        border: thin solid black;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+
+        </style>
+</head>
+<body>
+    <div class='window1'>
+        <div class='fieldset'>
+            <textarea rows='10' id='inPrefs'></textarea>
+            <br/>
+            <input type="button" class="go" id="run_prefConv" value="Go!"/>
+            <div class='text_result' id="prefs_result">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae deleniti culpa iusto magnam magni voluptatum dolorum, corrupti optio nesciunt eligendi aliquid provident vero alias aspernatur, perspiciatis, natus asperiores voluptate eius.</div>
+            <div id="tree"></div>
+        </div>
+    </div>
+</body>
+</html>
