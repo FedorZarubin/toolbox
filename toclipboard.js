@@ -2,7 +2,6 @@ function toClipboard (i) {
     if (i.id.match(/run_copy[45]/) !== null) {
         var divId = $(i).parent().siblings(".text_result").attr('id');
         var element = document.getElementById(divId);
-        
         var range = document.createRange();
         range.selectNode(element);
         window.getSelection().removeAllRanges();
@@ -15,6 +14,7 @@ function toClipboard (i) {
         window.getSelection().removeAllRanges();
     } else {
         var text = $(i).parent().siblings(".text_result").html();
+        text = text.replace(/<br>/g,"\r\n");
         var temp = $("<textarea>");
         $("body").append(temp);
         $(temp).html(text).select();
