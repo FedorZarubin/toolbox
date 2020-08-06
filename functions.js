@@ -38,9 +38,15 @@ function audit() {
     var time_beg = "00:00:01";
     var time_end = "23:59:59";
     if (d_beg.value !== "") dat_beg = d_beg.value;
-    if (t_beg.value !== "") time_beg = t_beg.value;
+    if (t_beg.value !== "") {
+        if (t_beg.value.length == 5) time_beg = t_beg.value + ":00";
+        else time_beg = t_beg.value;
+    }
     if (d_end.value !== "") dat_end = d_end.value;
-    if (t_end.value !== "") time_end = t_end.value;
+    if (t_end.value !== "") {
+        if (t_end.value.length == 5) time_end = t_end.value + ":00";
+        else time_end = t_end.value;
+    };
     ts_beg = Date.parse(dat_beg + "T" + time_beg + ".000+03:00")/1000;
     ts_end = Date.parse(dat_end + "T" + time_end + ".000+03:00")/1000;
 
