@@ -118,14 +118,8 @@ function cleanForm(i) {
 function num_proc() {
     //обработка введенных номеров
     var data = document.getElementById("inp_data").value;
-    var inp_separator = "";
-    if (document.getElementById("inp_separator").value == 1) {
-        inp_separator = "\n";
-    } else if (document.getElementById("inp_separator").value == 2) {
-        inp_separator = " ";
-    };
     if (data.trim() != "") {
-
+        var inp_separator = (data.trim().indexOf("\n") > 0) ? "\n" : " ";
         var inp_arr = data.trim().split(inp_separator);
         var result_arr = [];
         inp_arr.forEach(element => {
@@ -134,8 +128,8 @@ function num_proc() {
             if (num.length == 10) num = "7" + num;
             else if (num.length == 11 && num.slice(0,1) == "8") num = num.replace(/^8/, "7");
             else if (num.length == 11 && num.slice(0,1) == "7");
-            else num = num + " (!Некорректный формат номера!)";
-            if (result_arr.includes(num) === false) result_arr.push(num);
+            else if (num != "") num = num + " (!Некорректный формат номера!)";
+            if (result_arr.includes(num) === false && num != "") result_arr.push(num);
         });
         
         //вывод в нужном формате
@@ -227,7 +221,7 @@ function num_proc() {
                         else if (action_idx == '2' && srv_idx.match(/[12]/) !== null) action = "service_del";
                         else if (action_idx == '2' && srv_idx == '3') action = "vats_rem_phase1";
                         suffix = '; do echo "---$i---"' + in_file_next + '; curl "http://10.236.26.171/v1/OSA/' + action + '?ACCOUNT=VATS&MSISDN=$i&PWD=ZxRwgAKG&SERVICE_ID=' + srv + '"' + in_file_next + '; sleep ' + document.getElementById("sleep1").value + '; echo "OK"' + in_file_next + '; done';
-                        sec_rnd = (srv = '7024') ? '; echo "Подождите..."; sleep 10; for i in ' + result_arr.join(out_sep) + suffix.replace("_phase1","_phase2") : "";
+                        sec_rnd = (srv == '7024') ? '; echo "Подождите..."; sleep 10; for i in ' + result_arr.join(out_sep) + suffix.replace("_phase1","_phase2") : "";
                         result = prefix + result_arr.join(out_sep) + suffix + sec_rnd;
                     }
                     break;                    

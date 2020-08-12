@@ -3,18 +3,18 @@
         <meta charset="utf-8">
         <title>ITL Support ToolBox</title>
         <link rel="icon" href="itl_icon.ico" type="image/vnd.microsoft.icon"></link>
-        <link rel="stylesheet" href="/style_tabs.css">
+        <link rel="stylesheet" href="/toolbox/style_tabs.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="/tabs.js"></script>
-        <script src="/toclipboard.js"></script>
+        <script src="/toolbox/tabs.js"></script>
+        <script src="/toolbox/toclipboard.js"></script>
         <!-- <script src="/num_processing.js"></script> -->
-        <script src="/functions.js"></script>
-        <script src="/eventHandler.js"></script>
-        <script src="/cdata.js"></script>
+        <script src="/toolbox/functions.js"></script>
+        <script src="/toolbox/eventHandler.js"></script>
+        <script src="/toolbox/cdata.js"></script>
     </head>
     <body>
 
-    <div class="head_title"><img src="/itoolabs.png"/> SUPPORT ToolBox</div>
+    <div class="head_title"><img src="/toolbox/itoolabs.png"/> SUPPORT ToolBox</div>
     <div class="left"> <!--Левый столбец с блоками -->
 
         <!--Начало Аудит -->
@@ -23,17 +23,17 @@
         <header>Запрос в аудит</header>
         <div class = "platform">
         <input type = "radio" name="platform" class = "hidden_radio" id="mf" value = "mf" checked>
-        <label class = "hidden_radio_lbl" for = "mf"><img src="/icons/mf.png" title="Мегафон"/></label>
+        <label class = "hidden_radio_lbl" for = "mf"><img src="/toolbox/icons/mf.png" title="Мегафон"/></label>
         <input type = "radio" name="platform" class = "hidden_radio" id="mgts" value = "mgts">
-        <label class = "hidden_radio_lbl" for = "mgts"><img src="/icons/mgts.png" title="МГТС"/></label>
+        <label class = "hidden_radio_lbl" for = "mgts"><img src="/toolbox/icons/mgts.png" title="МГТС"/></label>
         <input type = "radio" name="platform" class = "hidden_radio" id="kc" value = "kc">
-        <label class = "hidden_radio_lbl" for = "kc"><img src="/icons/kc.png" title="KCell"/></label>
+        <label class = "hidden_radio_lbl" for = "kc"><img src="/toolbox/icons/kc.png" title="KCell"/></label>
         <input type = "radio" name="platform" class = "hidden_radio" id="mc" value = "mc">
-        <label class = "hidden_radio_lbl" for = "mc"><img src="/icons/mc.png" title="MoldCell"/></label>
+        <label class = "hidden_radio_lbl" for = "mc"><img src="/toolbox/icons/mc.png" title="MoldCell"/></label>
         <input type = "radio" name="platform" class = "hidden_radio" id="bl" value = "bl">
-        <label class = "hidden_radio_lbl" for = "bl"><img src="/icons/bl.png" title="Beeline.KG"/></label>
+        <label class = "hidden_radio_lbl" for = "bl"><img src="/toolbox/icons/bl.png" title="Beeline.KG"/></label>
         <input type = "radio" name="platform" class = "hidden_radio" id="dc" value = "dc">
-        <label class = "hidden_radio_lbl" for = "dc"><img src="/icons/dc1_40x40.png" title="DC1"/></label>
+        <label class = "hidden_radio_lbl" for = "dc"><img src="/toolbox/icons/dc1_40x40.png" title="DC1"/></label>
 
         </div>
         <br/>
@@ -53,8 +53,8 @@
         <input type="button" class="go" id="run_audit" value="Go!"/>
         <div class = 'text_result' id='audit_result'></div>
         <div class="flex">
-            <div class="go hidden" id="clean"><img src="/icons/clean_40x40.png"/> Очистить форму</div>
-            <div class="go hidden run_copy" id="run_copy"><img src="/icons/copy_40x40.png"/> Скопировать результат</div>
+            <div class="go hidden" id="clean"><img src="/toolbox/icons/clean_40x40.png"/> Очистить форму</div>
+            <div class="go hidden run_copy" id="run_copy"><img src="/toolbox/icons/copy_40x40.png"/> Скопировать результат</div>
         </div>
         </form>
         </div>
@@ -69,8 +69,8 @@
                     <input type="button" class="go" id="run_utfConv" value="Go!"/>
                     <div class = 'text_result' id='conv_result'></div>
                     <div class="flex">
-                        <div class="go hidden" id="clean3"><img src="/icons/clean_40x40.png"/> Очистить форму</div>
-                        <div class="go hidden run_copy" id="run_copy3"><img src="/icons/copy_40x40.png"/> Скопировать результат</div>
+                        <div class="go hidden" id="clean3"><img src="/toolbox/icons/clean_40x40.png"/> Очистить форму</div>
+                        <div class="go hidden run_copy" id="run_copy3"><img src="/toolbox/icons/copy_40x40.png"/> Скопировать результат</div>
                     </div>
                 </form>
 
@@ -90,10 +90,7 @@
         <header>Групповые операции с номерами</header>
         <div class="flex">
             <div>
-                <label>Разделитель: </label><select name="inp_separator" id="inp_separator">
-                    <option value ="1" selected>\r\n</option>
-                    <option value ="2">пробел</option>
-                </select>
+                <div style="padding: 5px 5px">Разделитель теперь определяется автоматически</div>
             </div>
             <div class="go" id="active_nums">Активные номера в домене</div>
         </div>
@@ -157,9 +154,9 @@
         <div class = 'text_result' id='numbers_result'></div>
         <div class="hidden" id="numbers_count" style="margin: 10px"></div>
         <div class="flex">
-            <div class="go hidden" id="clean1"><img src="/icons/clean_40x40.png"/> Очистить форму</div>
-            <div class="go hidden run_copy" id="run_copy1"><img src="/icons/copy_40x40.png"/> Скопировать результат</div>
-            <div class = "go hidden" id="analize"><a href="/analisis.php" target="_blank"><img src="/icons/xml.png"/> Анализ результатов curl...</a></div>
+            <div class="go hidden" id="clean1"><img src="/toolbox/icons/clean_40x40.png"/> Очистить форму</div>
+            <div class="go hidden run_copy" id="run_copy1"><img src="/toolbox/icons/copy_40x40.png"/> Скопировать результат</div>
+            <div class = "go hidden" id="analize"><a href="/toolbox/analisis.php" target="_blank"><img src="/toolbox/icons/xml.png"/> Анализ результатов curl...</a></div>
         </div>
         </form>
     </div>
@@ -181,8 +178,8 @@
             <input type="button" class="go" id="run_timeConv" value="Go!"/>
             <div class = 'text_result' id='date_result' onclick=toClipboard(this)></div>
             <div class="flex">
-                <div class="go hidden" id="clean2"><img src="/icons/clean_40x40.png"/> Очистить форму</div>
-                <div class="go hidden run_copy" id="run_copy2"><img src="/icons/copy_40x40.png"/> Скопировать результат</div>
+                <div class="go hidden" id="clean2"><img src="/toolbox/icons/clean_40x40.png"/> Очистить форму</div>
+                <div class="go hidden run_copy" id="run_copy2"><img src="/toolbox/icons/copy_40x40.png"/> Скопировать результат</div>
             </div>
     
         </form>
@@ -200,8 +197,8 @@
             <div class = 'hidden' id='prefs_result'></div>
             <div class = 'tabs hidden' id="prefs_tabs">
                 <div class="tabsLabel">
-                    <div class="tab_label" active><img src="/icons/explore_40x40.png"/> Просмотр</div>
-                    <div class="tab_label"><img src="/icons/edit_40x40.png"/> Редактирование</div>
+                    <div class="tab_label" active><img src="/toolbox/icons/explore_40x40.png"/> Просмотр</div>
+                    <div class="tab_label"><img src="/toolbox/icons/edit_40x40.png"/> Редактирование</div>
                 </div>
                 <div class="tabsContent">
                     <div class="tab_content" id="tree1" active></div>
@@ -212,13 +209,13 @@
                             <input type="button" class="go" id="run_prefEdit" value="Go!"/>
                             <div class = 'text_result hidden' id='prefs_edit_result'></div>    
                             <div class="flex">
-                                <div class="go hidden run_copy" id="run_copy6"><img src="/icons/copy_40x40.png"/> Скопировать CLI команду</div>
+                                <div class="go hidden run_copy" id="run_copy6"><img src="/toolbox/icons/copy_40x40.png"/> Скопировать CLI команду</div>
                             </div>                          
                     </div>
                 </div>
             </div>
             <div class="flex">
-                <div class="go hidden" id="clean6"><img src="/icons/clean_40x40.png"/> Очистить форму</div>
+                <div class="go hidden" id="clean6"><img src="/toolbox/icons/clean_40x40.png"/> Очистить форму</div>
             </div>                          
         </form>
 
@@ -239,7 +236,7 @@
             <div class='text_result' id="numArrs_result"></div>
             <div class="hidden" id="aCount" style="margin: 10px"></div>
             <div class="flex">
-                <div class="go hidden run_copy" id="run_copy5"><img src="/icons/copy_40x40.png"/> Скопировать результат</div>
+                <div class="go hidden run_copy" id="run_copy5"><img src="/toolbox/icons/copy_40x40.png"/> Скопировать результат</div>
             </div>
         </div>
     </div>
