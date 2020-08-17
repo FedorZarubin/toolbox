@@ -12,7 +12,7 @@
                 $i++;
                 $q_result = $DB -> query ("SELECT symb FROM utf_symb WHERE id_symb = $cur_code");
                 $raw = $q_result->fetch(PDO::FETCH_ASSOC);
-                $cur_symb = $raw[symb];
+                $cur_symb = $raw['symb'];
 
             } elseif (preg_match('/[.,!@#$%^&*()-=_+ <>"№\']/',$matches[0][$i])) {
                 $cur_symb = $matches[0][$i];
@@ -21,7 +21,7 @@
                 $cur_code = $matches[0][$i];
                 $q_result = $DB -> query ("SELECT symb FROM utf_symb WHERE id_symb = $cur_code");
                 $raw = $q_result->fetch(PDO::FETCH_ASSOC);
-                $cur_symb = $raw[symb];
+                $cur_symb = $raw['symb'];
             };
 
             array_push($out_arr, $cur_symb);

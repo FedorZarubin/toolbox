@@ -18,6 +18,9 @@
 
 ## functions.js
     -double new line character processing issue fix
-    -lost equal sign in sec_rnd variable condition issue fix
+    -lost equal sign in _sec_rnd_ variable condition issue fix
 
+#2.1.1
+## utf_conv.php
+    -add quotation marks to a _cur_symb_ variable definition
  
