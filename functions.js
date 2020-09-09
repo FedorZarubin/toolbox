@@ -255,7 +255,7 @@ function showResult (field, buttons, text) {
         $("#" + field).html(text)
     }
     $("#" + field).slideDown(300, "swing", function (){
-        if (field === "parse_result") {
+        if (field === "parse_result" && buttons.length !== 0) {
             $("#filter").slideDown(300, "swing", function (){colorTable()})
         } else if (field === "prefs_result") {$("#tree1").slideDown(300)}
     });

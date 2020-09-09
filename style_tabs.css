@@ -28,7 +28,8 @@ code{font-weight:bold;text-decoration:underline; font-size: 1em}
     font-size:3em;
     padding:20px;
     font-weight: 400; 
-    text-align: center
+    text-align: center;
+    position: relative
 }
 .head_title>img {max-width: 300px;}
 .message_info {color:rgb(255, 255, 255); font:1em arial; margin:3 0 10 0;}
@@ -271,4 +272,21 @@ textarea {
 
 summary {
     cursor: pointer;
+}
+
+.dropArea {
+    border: 3px solid transparent;
+}
+
+.dropArea.drag {
+    border: 3px dashed rgb(73, 219, 255); 
+}
+
+.ver {
+    font-size: 0.8em;
+    height: 15px;
+    width: 40px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
 }

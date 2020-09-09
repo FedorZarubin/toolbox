@@ -9,21 +9,22 @@
     <script src="/toolbox/toclipboard.js"></script>
     <script src="/toolbox/functions.js"></script>
     <script src="/toolbox/eventHandler.js"></script>
+    <script src="/toolbox/dndHandler.js"></script>
 </head>
 <body>
-<div class="fieldset" id="analisis">
-    <form method="POST" name="curl_result">
-        <header>Анализ результатов curl</header>
-        <label>Введите результат curl:</label><br/>
-        <textarea type="text" name="curl_output" id = "inp_xml" autocomplete="off" rows="15" cols="80"></textarea>
-        <input type="button" class="go" id="run_parse" value="Go!"/>
-        <div class = 'text_result' id='parse_result'></div>
-        <div class="flex">
-            <div class="go hidden" id="clean4"><img src="/toolbox/icons/clean_40x40.png"/> Очистить форму</div>
-            <div class="go hidden run_copy" id="run_copy4"> <img src="/toolbox/icons/copy_40x40.png"/> Скопировать результат</div>
-        </div>
-
-    </form>
+<div class="fieldset dropArea" id="analisis">
+        <form method="POST" name="curl_result">
+            <header>Анализ результатов curl</header>
+            <label>Введите результат curl, или перетащите сюда result.xml</label><br/>
+            <textarea type="text" name="curl_output" id = "inp_xml" autocomplete="off" rows="15" cols="80"></textarea>
+            <input type="button" class="go" id="run_parse" value="Go!"/>
+            <div class = 'text_result' id='parse_result'></div>
+            <div class="flex">
+                <div class="go hidden" id="clean4"><img src="/toolbox/icons/clean_40x40.png"/> Очистить форму</div>
+                <div class="go hidden run_copy" id="run_copy4"> <img src="/toolbox/icons/copy_40x40.png"/> Скопировать результат</div>
+            </div>
+            
+        </form>
 
 </div>
 <div class='fieldset' id='filter'>
