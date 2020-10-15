@@ -75,7 +75,7 @@ function audit() {
     if (case_sens.checked) caseSens = "";
     if (for_grep.value !== "") grep_str = " | grep  -" + caseSens + "E \"" + for_grep.value.trim() + "\"";
     var tail = " # c " + dat_beg + " " + time_beg + " до " + dat_end + " " + time_end;
-    var result = "curl \"" + prefix + domain + "&f=" + ts_beg + "&t=" + ts_end + "\" | sed 's/\\],\\[\"/\\],\\n\\[\"/g'" + grep_str + tail;
+    var result = "curl \"" + prefix + domain + "&f=" + ts_beg + "&t=" + ts_end + "\" | sed 's/\\]\\],\\[\"/\\],\\n\\[\"/g'" + grep_str + tail;
     showResult("audit_result", ["clean","run_copy"], result);
   }
 
