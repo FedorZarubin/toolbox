@@ -1,3 +1,8 @@
+# 2.3.0
+## functions.js, eventHandler, index.html
+    - drbossi to prefs telnums coverter
+    - "sed" command adjusted in "audit" form processing
+
 # 2.2.1
 ## functions.js
     - "sed" command adjusted in "audit" form processing

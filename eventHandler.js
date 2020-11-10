@@ -13,6 +13,7 @@ $(function eventHandler () {
         else if (fType === "active_nums") $(".window").fadeIn(300);
         else if (fType === "run_prefConv") prefConv(inPrefs.value);
         else if (fType === "run_prefEdit") jToCLI();
+        else if (fType === "run_tlnConv") tlnConv();
     });
     $(document).on('input','#nums_arrs textarea', function () {activeNums()});
     $(document).on('click','#window_close', function () {$(".window").fadeOut(300)});

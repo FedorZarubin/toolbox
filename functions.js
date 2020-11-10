@@ -75,7 +75,7 @@ function audit() {
     if (case_sens.checked) caseSens = "";
     if (for_grep.value !== "") grep_str = " | grep  -" + caseSens + "E \"" + for_grep.value.trim() + "\"";
     var tail = " # c " + dat_beg + " " + time_beg + " до " + dat_end + " " + time_end;
-    var result = "curl \"" + prefix + domain + "&f=" + ts_beg + "&t=" + ts_end + "\" | sed 's/\\]\\],\\[\"/\\],\\n\\[\"/g'" + grep_str + tail;
+    var result = "curl \"" + prefix + domain + "&f=" + ts_beg + "&t=" + ts_end + "\" | sed 's/\\],\\[\"/\\],\\n\\[\"/g'" + grep_str + tail;
     showResult("audit_result", ["clean","run_copy"], result);
   }
 
@@ -438,4 +438,34 @@ function jToCLI() {
         var result = command + " " + data;
     }
     showResult("prefs_edit_result",["run_copy6"],result);
+}
+
+function tlnConv() {
+    var result = "А конвертировать-то нечего ¯\\_(ツ)_/¯";
+    if (tln_str.value.trim()){
+        try {
+            var a = JSON.parse(tln_str.value.trim());
+        } catch (e) {
+            var errMsg = "[ERROR] Could not parse JSON: " + e
+        }
+        if (errMsg) {
+            result = "<b style='color: red'>"+errMsg+"</b>"
+        } else {
+            if (!(Array.isArray(a))) {
+                result = "Введенные данные не преобразуются в массив.\r\nВставьте значение свойства telnums <b style='color: red'>от знака '[' до знака ']'</b>"
+            } else {
+                var tlnObj = {};
+                for (var i=0;i<a.length;i++){
+                    var tn = a[i]["telnum"];
+                    tlnObj[tn] = {};
+                    tlnObj[tn]["city"] = a[i]["cityId"];
+                    tlnObj[tn]["color"] = a[i]["color"]
+                }
+                var j = {};
+                j.domru_telnums = tlnObj;
+                result = ITooLabs.CData.encode(j);
+            }
+        }
+    }
+    showResult("tln_result",["clean7","run_copy7"],result);
 }

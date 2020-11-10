@@ -13,7 +13,7 @@
         <script src="/toolbox/cdata.js"></script>
     </head>
     <body>
-    <div class="ver">v2.2.1</div>
+    <div class="ver">v2.3.0</div>
     <div class="head_title"><img src="/toolbox/itoolabs.png"/> SUPPORT ToolBox</div>
     <div class="left"> <!--Левый столбец с блоками -->
 
@@ -77,6 +77,24 @@
 
         </div>
         <!--Конец конвертация-->
+
+        <!--Начало перенос номеров -->
+        <div class="fieldset" id="tln_conv">
+            <form>
+                <header>Перенос номеров из drbossi в префсы</header>
+                <label>Вставьте значение свойства telnums от знака "[" до знака "]"</label><br/>
+                <textarea type="text" id="tln_str" autocomplete="off" rows="10" cols="50"></textarea>
+                <input type="button" class="go" id="run_tlnConv" value="Go!"/>
+                <div class = 'text_result' id='tln_result'></div>
+                <div class="flex">
+                    <div class="go hidden" id="clean7"><img src="/toolbox/icons/clean_40x40.png"/> Очистить форму</div>
+                    <div class="go hidden run_copy" id="run_copy7"><img src="/toolbox/icons/copy_40x40.png"/> Скопировать результат</div>
+                </div>
+            </form>
+
+
+        </div>
+        <!--Конец перенос номеров-->
 
     </div> <!--Конец Левый столбец с блоками -->
 
