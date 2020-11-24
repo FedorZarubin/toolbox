@@ -1,3 +1,8 @@
+# 2.3.1
+## functions.js, index.html
+    - 'inPrefs' empty field processing error fix
+    - 'sleep' parameter processing iproved
+
 # 2.3.0
 ## functions.js, eventHandler, index.html
     - drbossi to prefs telnums coverter

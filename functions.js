@@ -140,6 +140,7 @@ function num_proc() {
         var suffix = "";
         var in_file_first = "";
         var in_file_next = "";
+        var sleepVal = "";
         
         for (i=0; i<result_arr.length; i++){
             if (result_arr[i].match(/Некорректный формат номера/) !== null) {
@@ -174,10 +175,11 @@ function num_proc() {
                     };
                     prefix = 'echo "*Result*"' + in_file_first + '; for i in ';
                     out_sep = ' ';
+                    sleepVal = Math.floor(sleep.value) > 0 ? '; sleep ' + Math.floor(sleep.value) : "";
                     switch (document.getElementById("mfb_type").value) {
-                        case "1": suffix = '; do echo "---$i---"' + in_file_next + '; mfbossi activate subscriber $i' +in_file_next +'; sleep ' + document.getElementById("sleep").value + '; echo "OK"' + in_file_next + '; done'; break;
-                        case "2": suffix = '; do echo "---$i---"' + in_file_next + '; mfbossi deactivate subscriber $i' + in_file_next + '; sleep ' + document.getElementById("sleep").value + '; echo "OK"' + in_file_next + '; done'; break;
-                        case "3": suffix = '; do echo "---$i---"' + in_file_next + '; mfbossi get subscriber $i trunk' + in_file_next + '; sleep ' + document.getElementById("sleep").value + '; echo "OK"' + in_file_next + '; done'; break;
+                        case "1": suffix = '; do echo "---$i---"' + in_file_next + '; mfbossi activate subscriber $i' +in_file_next + sleepVal + '; echo "OK"' + in_file_next + '; done'; break;
+                        case "2": suffix = '; do echo "---$i---"' + in_file_next + '; mfbossi deactivate subscriber $i' + in_file_next + sleepVal + '; echo "OK"' + in_file_next + '; done'; break;
+                        case "3": suffix = '; do echo "---$i---"' + in_file_next + '; mfbossi get subscriber $i trunk' + in_file_next + sleepVal + '; echo "OK"' + in_file_next + '; done'; break;
                     };
                     result = prefix + result_arr.join(out_sep) + suffix;
                     break;
@@ -192,10 +194,11 @@ function num_proc() {
                         var curl_7005 = "";
                         var curl_7032 = "";
                         var curl_7024 = "";
+                        sleepVal = Math.floor(sleep.value) > 0 ? '; sleep ' + Math.floor(sleep.value) : "";
                         if (document.getElementById("7005").checked) curl_7005 = 'echo "<SRV_7005>"' + in_file_next + '; curl "http://10.236.26.171/v1/OSA/service_status?ACCOUNT=VATS&MSISDN=$i&PWD=ZxRwgAKG&SERVICE_ID=7005"' + in_file_next + '; echo "</SRV_7005>"' + in_file_next + '; ';
                         if (document.getElementById("7032").checked) curl_7032 = 'echo "<SRV_7032>"' + in_file_next + '; curl "http://10.236.26.171/v1/OSA/service_status?ACCOUNT=VATS&MSISDN=$i&PWD=ZxRwgAKG&SERVICE_ID=7032"' + in_file_next + '; echo "</SRV_7032>"' + in_file_next + '; ';
                         if (document.getElementById("7024").checked) curl_7024 = 'echo "<SRV_7024>"' + in_file_next + '; curl "http://10.236.26.171/v1/OSA/service_status?ACCOUNT=VATS&MSISDN=$i&PWD=ZxRwgAKG&SERVICE_ID=7024"' + in_file_next + '; echo "</SRV_7024>"' + in_file_next + '; ';
-                        suffix = '; do echo "<NUM_$i>"' + in_file_next + '; ' + curl_7005 + curl_7032 + curl_7024 + 'echo "</NUM_$i>"' + in_file_next + '; sleep ' + document.getElementById("sleep1").value + ';done; echo "</RESULT>"' + in_file_next;
+                        suffix = '; do echo "<NUM_$i>"' + in_file_next + '; ' + curl_7005 + curl_7032 + curl_7024 + 'echo "</NUM_$i>"' + in_file_next + sleepVal + ';done; echo "</RESULT>"' + in_file_next;
                         result = htmlspecialchars(prefix + result_arr.join(out_sep) + suffix);
                         document.getElementById("analize").style.display = "block";
                     }
@@ -220,7 +223,7 @@ function num_proc() {
                         else if (action_idx == '1' && srv_idx == '3') action = "vats_add_phase1";
                         else if (action_idx == '2' && srv_idx.match(/[12]/) !== null) action = "service_del";
                         else if (action_idx == '2' && srv_idx == '3') action = "vats_rem_phase1";
-                        suffix = '; do echo "---$i---"' + in_file_next + '; curl "http://10.236.26.171/v1/OSA/' + action + '?ACCOUNT=VATS&MSISDN=$i&PWD=ZxRwgAKG&SERVICE_ID=' + srv + '"' + in_file_next + '; sleep ' + document.getElementById("sleep1").value + '; echo "OK"' + in_file_next + '; done';
+                        suffix = '; do echo "---$i---"' + in_file_next + '; curl "http://10.236.26.171/v1/OSA/' + action + '?ACCOUNT=VATS&MSISDN=$i&PWD=ZxRwgAKG&SERVICE_ID=' + srv + '"' + in_file_next + sleepVal + '; echo "OK"' + in_file_next + '; done';
                         sec_rnd = (srv == '7024') ? '; echo "Подождите..."; sleep 10; for i in ' + result_arr.join(out_sep) + suffix.replace("_phase1","_phase2") : "";
                         result = prefix + result_arr.join(out_sep) + suffix + sec_rnd;
                     }
@@ -338,6 +341,10 @@ function activeNums() {
 }
 
 function prefConv(prefs) {
+    if (!prefs.trim()) {
+        showResult("prefs_result",["clean6"],"А конвертировать-то нечего ¯\\_(ツ)_/¯");
+        return null
+    }
     var parsedPrefs = JSON.stringify(ITooLabs.CData.decode(prefs));
     var jPrefs = JSON.parse(parsedPrefs);
     function jObjProc(obj) {
