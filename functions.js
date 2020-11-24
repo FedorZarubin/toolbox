@@ -194,7 +194,7 @@ function num_proc() {
                         var curl_7005 = "";
                         var curl_7032 = "";
                         var curl_7024 = "";
-                        sleepVal = Math.floor(sleep.value) > 0 ? '; sleep ' + Math.floor(sleep.value) : "";
+                        sleepVal = Math.floor(sleep1.value) > 0 ? '; sleep ' + Math.floor(sleep1.value) : "";
                         if (document.getElementById("7005").checked) curl_7005 = 'echo "<SRV_7005>"' + in_file_next + '; curl "http://10.236.26.171/v1/OSA/service_status?ACCOUNT=VATS&MSISDN=$i&PWD=ZxRwgAKG&SERVICE_ID=7005"' + in_file_next + '; echo "</SRV_7005>"' + in_file_next + '; ';
                         if (document.getElementById("7032").checked) curl_7032 = 'echo "<SRV_7032>"' + in_file_next + '; curl "http://10.236.26.171/v1/OSA/service_status?ACCOUNT=VATS&MSISDN=$i&PWD=ZxRwgAKG&SERVICE_ID=7032"' + in_file_next + '; echo "</SRV_7032>"' + in_file_next + '; ';
                         if (document.getElementById("7024").checked) curl_7024 = 'echo "<SRV_7024>"' + in_file_next + '; curl "http://10.236.26.171/v1/OSA/service_status?ACCOUNT=VATS&MSISDN=$i&PWD=ZxRwgAKG&SERVICE_ID=7024"' + in_file_next + '; echo "</SRV_7024>"' + in_file_next + '; ';
