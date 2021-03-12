@@ -40,4 +40,3 @@ function dndHandler(event) {
         }
     }
 }
- n

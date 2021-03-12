@@ -1,10 +1,14 @@
+# 2.4.0
+## functions.js, eventHandler.js, dark-unica.js (NEW), stat.html (NEW), style_tabs.css, tools_usage.php
+    - tools usage statistic
+
 # 2.3.1
 ## functions.js, index.html
     - 'inPrefs' empty field processing error fix
     - 'sleep' parameter processing iproved
 
 # 2.3.0
-## functions.js, eventHandler, index.html
+## functions.js, eventHandler.js, index.html
     - drbossi to prefs telnums coverter
     - "sed" command adjusted in "audit" form processing
 

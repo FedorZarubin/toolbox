@@ -2,6 +2,7 @@ $(function eventHandler () {
     $(document).on('click', '.go', function () {
         var fType = event.target.id;
         var fTypeCl = event.target.className;
+        var countedEvents = ["run_audit","run_num_proc","run_timeConv","run_utfConv","run_parse","run_filter","active_nums","run_prefConv","run_prefEdit","run_tlnConv"];
         if (fType.match(/^clean.*/) !== null) cleanForm(fType);
         else if (fType === "run_audit") audit();
         else if (fType === "run_num_proc") num_proc();
@@ -14,6 +15,13 @@ $(function eventHandler () {
         else if (fType === "run_prefConv") prefConv(inPrefs.value);
         else if (fType === "run_prefEdit") jToCLI();
         else if (fType === "run_tlnConv") tlnConv();
+        if (countedEvents.indexOf(fType)>=0) eventsCounter(fType);
+    });
+    if (document.getElementById('all_requests')) stat();
+    $(document).on('click','[name="period"]', function () {
+        if(document.getElementById('period_custom').checked) $('#customPeriodSet').slideDown(300);
+        else $('#customPeriodSet').slideUp(300);
+        stat()
     });
     $(document).on('input','#nums_arrs textarea', function () {activeNums()});
     $(document).on('click','#window_close', function () {$(".window").fadeOut(300)});

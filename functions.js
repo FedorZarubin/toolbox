@@ -476,3 +476,118 @@ function tlnConv() {
     }
     showResult("tln_result",["clean7","run_copy7"],result);
 }
+
+function eventsCounter (e) {
+    $.post("tools_usage.php", {ts: Date.now(),tool: e},
+        function (data) {
+            console.log(data)
+        }
+    );
+}
+
+function stat() {
+    var now = new Date();
+    var start;
+    var end = now.getTime();
+    if (document.getElementById("period_week").checked) {start = end - (7*24*3600*1000); showStat()}
+    else if (document.getElementById("period_month").checked) {start = now.setMonth(now.getMonth()-1); showStat()}
+    else if (document.getElementById("period_custom").checked) {
+        $(document).on('change','#customPeriodSet>input', function () {
+            var startVal = document.getElementById('dateStart').value;
+            var endVal = document.getElementById('dateEnd').value;
+            if (startVal !== "") {
+                start = Date.parse(startVal + "T00:00:01.000+03:00");
+                if (endVal !== "") end = Date.parse(endVal + "T23:59:59.000+03:00");
+            }
+            console.log("startVal = "+startVal+"\nendVal = "+endVal);
+            showStat()
+        });
+    }
+    function showStat(){
+        var json = {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Использование инструментов'
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    rotation: -45,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Количество использований'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size: 15px font-family: \'Verdana, sans-serif\'">{point.point.name}</span><br/>',
+                pointFormat: '<b style="font-family: \'Verdana, sans-serif\'">{point.y}</b>'
+            },
+            series: [{
+                name: 'Инструменты',
+                data: [
+                    // ['Аудит', 24],
+                    // ['Обработка номеров', 20],
+                    // ['Конвертер timestamp', 14],
+                    // ['Конвертер UTF', 7],
+                    // ['Парсинг XML', 13],
+                    // ['Выборка номеров', 0],
+                    // ['Активные номера в домене', 2],
+                    // ['Парсер префсов', 12],
+                    // ['Изменение префсов', 4],
+                    // ['Из drbossi в префсы', 1]
+                ],
+                dataLabels: false
+                // {
+                //     enabled: true,
+                //     // rotation: -90,
+                //     color: '#FFFFFF',
+                //     align: 'right',
+                //     format: '{point.y}', // one decimal
+                //     y: 30, // 10 pixels down from the top
+                //     style: {
+                //         fontSize: '13px',
+                //         fontFamily: 'Verdana, sans-serif'
+                //     }
+                // }
+            }]
+        };
+
+        $.post("tools_usage.php", {showStat: true, start: start, end: end},
+            function (data) {
+                var pattern = {
+                    "run_audit": "Аудит",
+                    "run_num_proc": "Обработка номеров",
+                    "run_timeConv":"Конвертер timestamp",
+                    "run_utfConv":"Конвертер UTF",
+                    "run_parse":"Парсинг XML",
+                    "run_filter":"Выборка номеров",
+                    "active_nums":"Активные номера в домене",
+                    "run_prefConv":"Парсер префсов",
+                    "run_prefEdit":"Изменение префсов",
+                    "run_tlnConv":"Из drbossi в префсы"
+                };
+                var countOfRuns = {};
+                for (i in pattern) {
+                    countOfRuns[i] = data.split(i).length - 1;
+                    data.replace(i,pattern[i]);
+                    json.series[0]["data"].push([pattern[i], countOfRuns[i]])
+                }
+                document.getElementsByClassName("mainStatTable")[0].innerHTML = data
+                $('#container').highcharts(json)
+            }
+        );
+    }
+
+}
