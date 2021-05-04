@@ -1,6 +1,7 @@
 function toClipboard (i) {
+    var targetField = $(i).closest("form").find(".text_result");
     if (i.id.match(/run_copy[45]/) !== null) {
-        var divId = $(i).parent().siblings(".text_result").attr('id');
+        var divId = targetField.attr('id');
         var element = document.getElementById(divId);
         var range = document.createRange();
         range.selectNode(element);
@@ -13,7 +14,8 @@ function toClipboard (i) {
         }
         window.getSelection().removeAllRanges();
     } else {
-        var text = $(i).parent().siblings(".text_result").html();
+        // var text = $(i).parent().siblings(".text_result").html();
+        var text = targetField.html();
         text = text.replace(/<br>/g,"\r\n");
         var temp = $("<textarea>");
         $("body").append(temp);
@@ -30,7 +32,7 @@ function toClipboard (i) {
     var doneHide = function () {
         $(".done").hide(200, "linear", function (){$(".done").remove()});
     };
-    $(i).parent().siblings(".text_result").append(done);
+    targetField.append(done).scrollTop(0);
     $(".done").show(200,"linear",function(){setTimeout(doneHide, 1000)});
 
 }

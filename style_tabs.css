@@ -295,6 +295,19 @@ summary {
     color: rgb(73, 219, 255);
 }
 
+.statLink {
+    font-size: 0.8em;
+    height: 15px;
+    width: 150px;
+    position: absolute;
+    left: 20px;
+    top: 100px;
+}
+
+.statLink>a:hover {
+    color: rgb(73, 219, 255);
+}
+
 .mainStatTable {
     height: 830px;
     background-color: rgba(85, 85, 85, 0.65);
@@ -349,4 +362,57 @@ summary {
 }
 .highcharts-data-table tr:hover {
     background: #f1f7ff;
+}
+
+.master {
+    position: relative;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    height: 230px;
+    }
+
+.band {
+    width: 500%;
+    margin: 10 0 10 0;
+    padding: 0;
+    position: relative;
+    left: 0;
+    display: flex;
+    /* transition-duration: 300ms; */
+}
+
+.bandScreen {
+    position: relative;
+    width: calc(20% - 1px);
+    height: 150px;
+    padding: 10px;
+    border: thin solid white;
+    border-radius: 5px;
+    background-color: #969696;
+    box-sizing: border-box;
+    margin-right: 1px;
+    text-align: center;
+    display: none;
+}
+
+.bandScreen:first-of-type {
+    display: block;
+}
+
+.bandScreen label, .bandScreen input {
+    vertical-align: middle;
+}
+
+.prev {
+    visibility: hidden;
+}
+
+.prev img, .next img, .toStart img {
+    width: 10px;
+}
+
+#promo_result {
+    max-height: 125px;
+    margin: 0;
 }

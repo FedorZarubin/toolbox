@@ -31,69 +31,93 @@ function timeConv(ts) {
 }
 
 function audit() {
-    var prefix = "";
-    var now = new Date();
-    var dat_beg = now.toISOString().slice(0,10);
-    var dat_end = dat_beg;
-    var time_beg = "00:00:01";
-    var time_end = "23:59:59";
-    if (d_beg.value !== "") dat_beg = d_beg.value;
-    if (t_beg.value !== "") {
-        if (t_beg.value.length == 5) time_beg = t_beg.value + ":00";
-        else time_beg = t_beg.value;
+    if (domain_name.value !== "") {
+        domain = domain_name.value;
+    } else domain = "vo.megafon.ru";
+    var auditUrls = {
+        "193.201.230.183": "http://10.50.194.3:8084?domain=",
+        "195.9.78.70": "http://10.200.225.207:8080?domain=",
+        "185.2.224.12": "http://172.16.1.252:9080/?domain=",
+        "79.170.228.100": "http://10.100.0.1:8080/?domain=",
+        "91.247.60.40": "http://history0:8080/?domain=",
+        "109.69.176.249": "http://10.69.194.50:8080?domain=",
+        "188.186.156.140": "http://10.3.0.177:8081?domain=",
+        "5.3.4.140": "http://10.3.1.240:8081?domain=",
+        "80.67.213.60": "http://10.100.3.51:7080?domain=",
+        "81.95.224.170": "http://10.100.11.50:8080?domain=",
+        "185.2.115.250": "http://10.100.6.102:8080?domain=",
+        "109.69.177.187": "http://10.100.32.102:8080?domain="
     }
-    if (d_end.value !== "") dat_end = d_end.value;
-    if (t_end.value !== "") {
-        if (t_end.value.length == 5) time_end = t_end.value + ":00";
-        else time_end = t_end.value;
-    };
-    ts_beg = Date.parse(dat_beg + "T" + time_beg + ".000+03:00")/1000;
-    ts_end = Date.parse(dat_end + "T" + time_end + ".000+03:00")/1000;
+    $.post("aux_tools.php", {dn: domain},
+        function (data) {
+            if (!auditUrls[data]) showResult("audit_result", ["clean"], "Некорректное имя домена!");
+            else {
+                var prefix = auditUrls[data];
+                var now = new Date();
+                var dat_beg = now.toISOString().slice(0,10);
+                var dat_end = dat_beg;
+                var time_beg = "00:00:01";
+                var time_end = "23:59:59";
+                if (d_beg.value !== "") dat_beg = d_beg.value;
+                if (t_beg.value !== "") {
+                    if (t_beg.value.length == 5) time_beg = t_beg.value + ":00";
+                    else time_beg = t_beg.value;
+                }
+                if (d_end.value !== "") dat_end = d_end.value;
+                if (t_end.value !== "") {
+                    if (t_end.value.length == 5) time_end = t_end.value + ":00";
+                    else time_end = t_end.value;
+                };
+                ts_beg = Date.parse(dat_beg + "T" + time_beg + ".000+03:00")/1000;
+                ts_end = Date.parse(dat_end + "T" + time_end + ".000+03:00")/1000;
+                var grep_str = "";
+                var caseSens = "i";
+                if (case_sens.checked) caseSens = "";
+                if (for_grep.value !== "") grep_str = " | grep  -" + caseSens + "E \"" + for_grep.value.trim() + "\"";
+                var tail = " # c " + dat_beg + " " + time_beg + " до " + dat_end + " " + time_end;
+                var result = "curl \"" + prefix + domain + "&f=" + ts_beg + "&t=" + ts_end + "\" | sed 's/\\],\\[\"/\\],\\n\\[\"/g'" + grep_str + tail;
+                showResult("audit_result", ["clean","run_copy"], result);
+            }
+        }
+    );
 
-    if (mf.checked) {
-      prefix = "http://10.50.194.3:8084?domain=";
-      var domain = "vo.megafon.ru";
-    } else if (mgts.checked) {
-        prefix = "http://10.200.225.207:8080?domain=";
-        var domain = "admin.vats.mgts.ru";
-    } else if (kc.checked) {
-        prefix = "http://172.16.1.252:9080/?domain=";
-        var domain = "vpbx.kcell.kz";
-    } else if (mc.checked) {
-        prefix = "http://10.100.0.1:8080/?domain=";
-        var domain = "pbx.moldcell.md";
-    } else if (bl.checked) {
-        prefix = "http://:8080/?domain=";
-        var domain = "ats.beeline.kg";
-    } else if (dc.checked) {
-        prefix = "http://10.69.194.50:8080?domain=";
-        var domain = "ucdemo.enforta.ru";
-    };
-    if (domain_name.value !== "") domain = domain_name.value;
-    var grep_str = "";
-    var caseSens = "i";
-    if (case_sens.checked) caseSens = "";
-    if (for_grep.value !== "") grep_str = " | grep  -" + caseSens + "E \"" + for_grep.value.trim() + "\"";
-    var tail = " # c " + dat_beg + " " + time_beg + " до " + dat_end + " " + time_end;
-    var result = "curl \"" + prefix + domain + "&f=" + ts_beg + "&t=" + ts_end + "\" | sed 's/\\],\\[\"/\\],\\n\\[\"/g'" + grep_str + tail;
-    showResult("audit_result", ["clean","run_copy"], result);
+
+    // if (mf.checked) {
+    //   prefix = "http://10.50.194.3:8084?domain=";
+    //   var domain = "vo.megafon.ru";
+    // } else if (mgts.checked) {
+    //     prefix = "http://10.200.225.207:8080?domain=";
+    //     var domain = "admin.vats.mgts.ru";
+    // } else if (kc.checked) {
+    //     prefix = "http://172.16.1.252:9080/?domain=";
+    //     var domain = "vpbx.kcell.kz";
+    // } else if (mc.checked) {
+    //     prefix = "http://10.100.0.1:8080/?domain=";
+    //     var domain = "pbx.moldcell.md";
+    // } else if (bl.checked) {
+    //     prefix = "http://:8080/?domain=";
+    //     var domain = "ats.beeline.kg";
+    // } else if (dc.checked) {
+    //     prefix = "http://10.69.194.50:8080?domain=";
+    //     var domain = "ucdemo.enforta.ru";
+    // };
   }
 
-$(function audit_placeholder() {
-    $('.platform>label').click(function () {
-        var type = $(this).attr("for");
-        var ph = "";
-        switch (type) {
-            case "mf": ph = "vo.megafon.ru"; break;
-            case "mgts": ph = "admin.vats.mgts.ru"; break;
-            case "kc": ph = "vpbx.kcell.kz"; break;
-            case "mc": ph = "pbx.moldcell.md"; break;
-            case "bl": ph = "ats.beeline.kg"; break;
-            case "dc": ph = "ucdemo.enforta.ru"; break;
-        };
-        $('#domain_name').attr("placeholder", ph);
-    })
-})
+// $(function audit_placeholder() {
+//     $('.platform>label').click(function () {
+//         var type = $(this).attr("for");
+//         var ph = "";
+//         switch (type) {
+//             case "mf": ph = "vo.megafon.ru"; break;
+//             case "mgts": ph = "admin.vats.mgts.ru"; break;
+//             case "kc": ph = "vpbx.kcell.kz"; break;
+//             case "mc": ph = "pbx.moldcell.md"; break;
+//             case "bl": ph = "ats.beeline.kg"; break;
+//             case "dc": ph = "ucdemo.enforta.ru"; break;
+//         };
+//         $('#domain_name').attr("placeholder", ph);
+//     })
+// })
 
 function cleanForm(i) {
     $("#" + i).parent().siblings(".text_result").slideUp(300);
@@ -480,7 +504,7 @@ function tlnConv() {
 function eventsCounter (e) {
     $.post("tools_usage.php", {ts: Date.now(),tool: e},
         function (data) {
-            console.log(data)
+            // console.log(data)
         }
     );
 }
@@ -576,12 +600,13 @@ function stat() {
                     "active_nums":"Активные номера в домене",
                     "run_prefConv":"Парсер префсов",
                     "run_prefEdit":"Изменение префсов",
-                    "run_tlnConv":"Из drbossi в префсы"
+                    "run_tlnConv":"Из drbossi в префсы",
+                    "run_copy8":"Создание промокодов"
                 };
                 var countOfRuns = {};
                 for (i in pattern) {
                     countOfRuns[i] = data.split(i).length - 1;
-                    data.replace(i,pattern[i]);
+                    data = data.replace(new RegExp(i,"g"),pattern[i]);
                     json.series[0]["data"].push([pattern[i], countOfRuns[i]])
                 }
                 document.getElementsByClassName("mainStatTable")[0].innerHTML = data
@@ -590,4 +615,109 @@ function stat() {
         );
     }
 
+};
+
+function bandScroll (i) {
+    var classes = i.className.split(" ");
+    var direction = classes[classes.length-1];
+    var master = $(i).closest(".master")[0];
+    var masterWidth = master.clientWidth;
+    var curScrn = $(master).find(".bandScreen:visible")[0];
+    var curScrnNum = $(curScrn).attr("scrnIndex");
+    var band = master.querySelector(".band");
+    if (direction === "next") {
+        var nextScrn = curScrn.nextElementSibling;
+        if (nextScrn) {
+            nextScrn.style.display = "block";
+            $(band).animate({left:0-masterWidth},300,"swing",function(){
+                $(curScrn).hide();
+                band.style.left=0;
+                $(master).find(".prev").css("visibility","unset");
+                if (nextScrn.hasAttribute("scrnResult")) {
+                    $(master).find(".toStart,.run_copy").show();
+                    $(master).find(".next").css("visibility","hidden");
+                }
+            })
+        }
+        
+    }
+    else if (direction === "prev") {
+        var prevScrn = curScrn.previousElementSibling;
+        if (prevScrn){
+            prevScrn.style.display = "block";
+            band.style.left = 0-masterWidth;
+            $(band).animate({left:0},300,"swing",function(){
+                $(curScrn).hide();
+                if (curScrn.hasAttribute("scrnResult")) {
+                    $(master).find(".toStart,.run_copy").hide();
+                    $(master).find(".next").css("visibility","unset")
+                }
+                if (curScrnNum=="2") $(master).find(".prev").css("visibility","hidden");
+            })
+        }
+    }
+    else if (direction === "toStart") {
+
+        band.firstElementChild.style.display = "block";
+        band.style.left = 0-masterWidth;
+        $(band).animate({left:0},300,"swing",function(){
+            $(curScrn).hide();
+            $(master).find(".toStart,.run_copy").hide();
+            $(master).find(".next").css("visibility","unset")
+            $(master).find(".prev").css("visibility","hidden");
+            $(master).parents("form").trigger("reset");
+        })
+    };
+};
+
+function generatePromo (i) {
+    // переключение отображения
+    switch (i.id) {
+        case "demo": $("#promoWizard .if_demo").show(); $("#promoWizard .if_option").hide(); break;
+        case "option": $("#promoWizard .if_demo").hide(); $("#promoWizard .if_option").show(); break;
+        case "singleUse": $("#promoWizard .if_singleUse").show(); $("#promoWizard .if_multiUse").hide(); break;
+        case "multiUse": $("#promoWizard .if_singleUse").hide(); $("#promoWizard .if_multiUse").show(); break;    
+        case "offline": $("#promoWizard .if_offline").show(); break;    
+        case "online": $("#promoWizard .if_offline").hide(); break;    
+    };
+    if ($("#offline:checked")[0]&&$("#singleUse:checked")[0]) $("#promoEmail").parent().show();
+    else $("#promoEmail").parent().hide();
+    
+    // обработка значений
+    var essence, start, limited, toEmail, offline;
+    essence=start=limited=toEmail=offline = "";
+    if (document.getElementById("option").checked) {
+        var optList = [];
+        $("#options>input:checked").each(function (i,e) {optList.push(e.value)});
+        var period = document.getElementById("period").value;
+        var clientTypeList = [];
+        $("#clientType>input:checked").each(function (i,e) {clientTypeList.push(e.value)});
+        essence = "of using '"+optList.join(",")+"' extensions for "+period+" months for '"+clientTypeList.join(",")+"' customers";
+        var champNameTail = optList.join("-")+"_"+period+"m";
+        
+    } else if (document.getElementById("demo").checked) {
+        var demoExt = document.getElementById("demoExt").value;
+        essence = "of demo prolongation for "+demoExt+" days";
+        var champNameTail = "demo_"+demoExt+"d";
+    }
+    if (document.getElementById("offline").checked) {
+        offline = " offline";
+        toEmail = "to email '"+document.getElementById("promoEmail").value+"'";
+    } else if (document.getElementById("online").checked) {offline, toEmail = "";}
+    if (document.getElementById("singleUse").checked) {
+        start = "mfbossi make "+document.getElementById("promoCount").value+offline+" promocode ";
+    }
+    else if (document.getElementById("multiUse").checked) {
+        start = "mfbossi add reusable"+offline+" promocode "+document.getElementById("multiUsePromo").value+" ";
+        toEmail = "";
+        limited = " limited "+document.getElementById("multiUseCount").value
+    }
+
+    var champName = " at 'promo_"+new Date().toISOString().slice(0,10)+"_"+champNameTail+"' campaign ";
+    var desc = "with '"+document.getElementById("champingDesc").value+"' description ";
+    var till = "till '"+document.getElementById("dateTill").value+"' ";
+    document.getElementById("promo_result").innerHTML = start+essence+champName+desc+till+limited+toEmail;
+    document.getElementById("promo_result").style.display = "block";
+    
+     
 }

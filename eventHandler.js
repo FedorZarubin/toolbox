@@ -2,7 +2,7 @@ $(function eventHandler () {
     $(document).on('click', '.go', function () {
         var fType = event.target.id;
         var fTypeCl = event.target.className;
-        var countedEvents = ["run_audit","run_num_proc","run_timeConv","run_utfConv","run_parse","run_filter","active_nums","run_prefConv","run_prefEdit","run_tlnConv"];
+        var countedEvents = ["run_audit","run_num_proc","run_timeConv","run_utfConv","run_parse","run_filter","active_nums","run_prefConv","run_prefEdit","run_tlnConv","run_copy8"];
         if (fType.match(/^clean.*/) !== null) cleanForm(fType);
         else if (fType === "run_audit") audit();
         else if (fType === "run_num_proc") num_proc();
@@ -26,4 +26,6 @@ $(function eventHandler () {
     $(document).on('input','#nums_arrs textarea', function () {activeNums()});
     $(document).on('click','#window_close', function () {$(".window").fadeOut(300)});
     $(document).on('change','#prefs_block', function () {changeBlock()});
+    $(document).on('click','.master .go', function () {bandScroll(this)});
+    $(document).on('change','#promoWizard input,#promoWizard textarea', function () {generatePromo(this)});
 })
