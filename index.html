@@ -14,7 +14,7 @@
     </head>
     <body>
         <div class="head_title"><img src="/toolbox/itoolabs.png"/> SUPPORT ToolBox</div>
-        <div class="ver"><a href="/toolbox/relese_notes.html" target="_blanc">v2.5.0</a></div>
+        <div class="ver"><a href="/toolbox/relese_notes.html" target="_blanc">v2.5.1</a></div>
         <div class="statLink"><a href="/toolbox/stat.html" target="_blanc">Немного статистики</a></div>
     <div class="left"> <!--Левый столбец с блоками -->
 
@@ -42,20 +42,21 @@
         <div>
             <div style="padding: 5px 5px">Платформа теперь определяется автоматически</div>
         </div>
-        <label>Домен:</label> <input type = "text" id = "domain_name" name = "domain_name" placeholder="vo.megafon.ru" /><br/><br/>
-        <label for = "dat_beg" id="d_beg_1">Начало:</label>
-        <input id="d_beg" type = "date" name = "date_begin"/>
-        Время: <input type= "time" id="t_beg" name = "time_begin" step="1"/><br/>
-        <div class="info"> (по умолчанию - текущий день, время: 00-00-01)</div><br />
-
-        <label for = "dat_end" >Конец:</label> <input id="d_end" type = "date" name = "date_end"/>
-        Время: <input type="time" id="t_end" name = "time_end" step="1"/><br/>
-        <div class="info"> (по умолчанию - текущий день, время: 23-59-59)</div><br />
-        <label>Поиск в результатах:</label> <input type = "text" id = "for_grep"/>
-        <input id="case_sens" type = "checkbox" value = "1"><label class="hidden_checkbox_lbl" for = "case_sens">Учитывать регистр</label><br /><br />
-
-
-        <input type="button" class="go" id="run_audit" value="Go!"/>
+        <div id="auditGrid">
+            <div><label>Домен:</label></div><div><input type = "text" id = "domain_name" name = "domain_name" placeholder="vo.megafon.ru" /></div><div></div><div></div>
+            <div><label for = "dat_beg" id="d_beg_1">Начало:</label></div>
+            <div><input id="d_beg" type = "date" name = "date_begin"/></div>
+            <div>Время:</div><div><input type= "time" id="t_beg" name = "time_begin" step="1"/></div>
+            <div></div><div class="info"> (по умолчанию - текущий день, время: 00-00-01)</div>
+            <div><label for = "dat_end" >Конец:</label></div><div><input id="d_end" type = "date" name = "date_end"/></div>
+            <div>Время:</div><div><input type="time" id="t_end" name = "time_end" step="1"/></div>
+            <div></div><div class="info"> (по умолчанию - текущий день, время: 23-59-59)</div>
+        </div>
+        <div><label>Поиск в результатах:</label> <input type = "text" id = "for_grep"/></div>
+        <div><input id="case_sens" type = "checkbox" value = "1"><label class="hidden_checkbox_lbl" for = "case_sens">Учитывать регистр</label></div>
+        <div class="flex">
+            <input type="button" class="go" id="run_audit" value="Go!"/>
+        </div>
         <div class = 'text_result' id='audit_result'></div>
         <div class="flex">
             <div class="go hidden" id="clean"><img src="/toolbox/icons/clean_40x40.png"/> Очистить форму</div>
@@ -149,17 +150,16 @@
                 <div class="tab_content">
                     <div class="item" id=curl active>
 
-                    <span> Вывести curl проверки статуса услуг |</span>
+                    <div>Вывести curl проверки статуса услуг</div>
                         <input type="checkbox" name="7005" id="7005" value="1" checked><label class="hidden_checkbox_lbl" for="7005"> Мультифон</label>
                         <input type="checkbox" name="7032" id="7032" value="1" checked><label class="hidden_checkbox_lbl" for="7032"> eMotion</label>
                         <input type="checkbox" name="7024" id="7024" value="1" checked><label class="hidden_checkbox_lbl" for="7024"> inServices</label>
                     </div>
                     <div class="item" id=curl1>
-                    <span> Вывести curl вкл/выкл услуги |</span>
-                        <label> действие</label>
+                    <div> Вывести curl вкл/выкл услуги</div>
                         <select name="action" id="action">
                         <option value ="1" selected>включить</option>
-                        <option value ="2">выключить</option>
+                        <option value ="2">вЫключить</option>
                         </select>
                         <select name="srv" id="srv">
                         <option value ="1" selected>Мультифон</option>
@@ -263,10 +263,6 @@
                         <label class = "hidden_radio_lbl" for = "offline">Оффлайн</label>
                         <input type = "radio" class = "hidden_radio" name = "provideType" id="online" value = "on">
                         <label class = "hidden_radio_lbl" for = "online">Онлайн</label><br/>
-                        <!-- <div class="flex">
-                            <div></div>
-                            <div class="go next">Далее <img src="/toolbox/icons/next.png"/></div>
-                        </div>                           -->
                     </div>
                     <div class="bandScreen" scrnIndex="2">
                         <div class="if_option" id="options">
@@ -288,10 +284,6 @@
                         <div class="if_demo hidden">
                             <label for="demoExt">На сколько дней продляем? <input type="text" id="demoExt" size="5"></label>
                         </div>
-                        <!-- <div class="flex">
-                            <div class="go prev"><img src="/toolbox/icons/prev.png"/> Назад</div>
-                            <div class="go next">Далее <img src="/toolbox/icons/next.png"/></div>
-                        </div>                           -->
                     </div>
                     <div class="bandScreen" scrnIndex="3">
                         <label>Какой будет промокод?</label><br/>
@@ -308,18 +300,8 @@
                             <label for="multiUsePromo">Промокод: <input type="text" id="multiUsePromo"></label>
                             <label for="multiUseCount">Количество возможных активаций: <input type="text" id="multiUseCount" size="6"></label>
                         </div>
-                        <!-- <div class="flex">
-                            <div class="go prev"><img src="/toolbox/icons/prev.png"/> Назад</div>
-                            <div class="go next">Далее <img src="/toolbox/icons/next.png"/></div>
-                        </div>                           -->
                     </div>
                     <div class="bandScreen" scrnIndex="4">
-                        <!-- <div class="if_option">
-                            <label>Для каких клиентов?</label><br/>
-                            <input type="checkbox" name="clientType" id="demoType" value="0"><label class="hidden_checkbox_lbl" for="demoType"> Новых</label>
-                            <input type="checkbox" name="clientType" id="commType" value="0"><label class="hidden_checkbox_lbl" for="commType"> Действующих</label>
-                            <input type="checkbox" name="clientType" id="blockType" value="0"><label class="hidden_checkbox_lbl" for="blockType"> Заблокированных</label>    
-                        </div> -->
                         <div>
                             <label>Название промокампании:</label><br/>
                             <textarea rows='2' id="champingDesc"></textarea>

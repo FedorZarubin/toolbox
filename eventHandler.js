@@ -1,5 +1,5 @@
 $(function eventHandler () {
-    $(document).on('click', '.go', function () {
+    $(document).on('click', '.go', function (event) {
         var fType = event.target.id;
         var fTypeCl = event.target.className;
         var countedEvents = ["run_audit","run_num_proc","run_timeConv","run_utfConv","run_parse","run_filter","active_nums","run_prefConv","run_prefEdit","run_tlnConv","run_copy8"];

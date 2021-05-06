@@ -666,6 +666,7 @@ function bandScroll (i) {
             $(master).find(".next").css("visibility","unset")
             $(master).find(".prev").css("visibility","hidden");
             $(master).parents("form").trigger("reset");
+            $(master).find("div").each(function(){this.removeAttribute("style")})
         })
     };
 };
@@ -686,37 +687,54 @@ function generatePromo (i) {
     // обработка значений
     var essence, start, limited, toEmail, offline;
     essence=start=limited=toEmail=offline = "";
+    var errList = [];
     if (document.getElementById("option").checked) {
         var optList = [];
         $("#options>input:checked").each(function (i,e) {optList.push(e.value)});
+        if (optList.length==0) errList.push("Не выбраны опции");
         var period = document.getElementById("period").value;
+        if (period.match(/^\d+$/)==null) errList.push("Срок пользования опциями");
         var clientTypeList = [];
         $("#clientType>input:checked").each(function (i,e) {clientTypeList.push(e.value)});
+        if (clientTypeList.length==0) errList.push("Не выбран тип клиентов");
         essence = "of using '"+optList.join(",")+"' extensions for "+period+" months for '"+clientTypeList.join(",")+"' customers";
         var champNameTail = optList.join("-")+"_"+period+"m";
         
     } else if (document.getElementById("demo").checked) {
         var demoExt = document.getElementById("demoExt").value;
+        if (demoExt.match(/^\d+$/)==null) errList.push("Срок продления демо");
         essence = "of demo prolongation for "+demoExt+" days";
         var champNameTail = "demo_"+demoExt+"d";
     }
     if (document.getElementById("offline").checked) {
         offline = " offline";
         toEmail = "to email '"+document.getElementById("promoEmail").value+"'";
+        if (document.getElementById("promoEmail").value.match(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/)==null&&document.getElementById("singleUse").checked) errList.push("E-Mail");
     } else if (document.getElementById("online").checked) {offline, toEmail = "";}
     if (document.getElementById("singleUse").checked) {
         start = "mfbossi make "+document.getElementById("promoCount").value+offline+" promocode ";
+        if (document.getElementById("promoCount").value.match(/^\d+$/)==null) errList.push("Количество промокодов");
     }
     else if (document.getElementById("multiUse").checked) {
         start = "mfbossi add reusable"+offline+" promocode "+document.getElementById("multiUsePromo").value+" ";
         toEmail = "";
-        limited = " limited "+document.getElementById("multiUseCount").value
+        limited = " limited "+document.getElementById("multiUseCount").value;
+        if (document.getElementById("multiUsePromo").value=="") errList.push("Промокод");
+        if (document.getElementById("multiUseCount").value=="") errList.push("Количество возможных активаций");
     }
 
     var champName = " at 'promo_"+new Date().toISOString().slice(0,10)+"_"+champNameTail+"' campaign ";
     var desc = "with '"+document.getElementById("champingDesc").value+"' description ";
     var till = "till '"+document.getElementById("dateTill").value+"' ";
-    document.getElementById("promo_result").innerHTML = start+essence+champName+desc+till+limited+toEmail;
+    if (document.getElementById("champingDesc").value=="") errList.push("Название промокампании");
+    if (document.getElementById("dateTill").value=="") errList.push("Срок активации");
+    if (errList.length!=0) {
+        document.getElementById("promo_result").innerText = "Не заполнены или некорректно заполнены следующие поля:\n\n"+errList.join("\n");
+        document.getElementById("promo_result").style.backgroundColor = "rgba(255, 106, 106, 0.425)";
+    } else {
+        document.getElementById("promo_result").innerHTML = start+essence+champName+desc+till+limited+toEmail;
+        document.getElementById("promo_result").removeAttribute("style")
+    }
     document.getElementById("promo_result").style.display = "block";
     
      

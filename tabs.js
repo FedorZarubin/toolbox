@@ -11,11 +11,11 @@ $(function tabs_select () {
 })
 
 $(function items_select () {          
-    $('.item>span').click(function (){
-        $(this).parent().attr("active", "");
-        $(this).parent().siblings().removeAttr("active");
-        return false;
-        })
+    $('.item').click(function (){
+        $(this).attr("active", "");
+        $(this).siblings().removeAttr("active");
+        });
+    $('.item input,.item select,.item label').click(function (event){event.stopPropagation()})
 })
 
 function htmlspecialchars(html){

@@ -1,5 +1,5 @@
 function toClipboard (i) {
-    var targetField = $(i).closest("form").find(".text_result");
+    var targetField = $(i).closest("form").find(".text_result:visible");
     if (i.id.match(/run_copy[45]/) !== null) {
         var divId = targetField.attr('id');
         var element = document.getElementById(divId);
