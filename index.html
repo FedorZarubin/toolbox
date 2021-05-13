@@ -14,7 +14,7 @@
     </head>
     <body>
         <div class="head_title"><img src="/toolbox/itoolabs.png"/> SUPPORT ToolBox</div>
-        <div class="ver"><a href="/toolbox/relese_notes.html" target="_blanc">v2.5.2</a></div>
+        <div class="ver"><a href="/toolbox/relese_notes.html" target="_blanc">v2.5.3</a></div>
         <div class="statLink"><a href="/toolbox/stat.html" target="_blanc">Немного статистики</a></div>
     <div class="left"> <!--Левый столбец с блоками -->
 
@@ -145,8 +145,8 @@
                         <option value ="2">Деактивация номеров</option>
                         <option value ="3">Проверка транка</option>
                     </select><br/>
-                    <label>Интервал между командами (sleep), с</label><input type="text" name="sleep" id="sleep" width=1 value="1"/><br/>
-                    <input type="checkbox" name="in_file" id="in_file"/><label class="hidden_checkbox_lbl" for="in_file">Записать вывод в файл</label>
+                    <label>Интервал между командами (sleep), с</label><input type="text" id="sleep" size=1 value="1"/><br/>
+                    <input type="checkbox" id="in_file"/><label class="hidden_checkbox_lbl" for="in_file">Записать вывод в файл</label>
                 </div>
                 <div class="tab_content">
                     <div class="item" id=curl active>
@@ -168,10 +168,37 @@
                         <option value ="3">inServices</option>
                         </select>
                     </div>
-                    <label>Интервал между командами (sleep), с</label><input type="text" name="sleep1" id="sleep1" width=1 value="1"/><br/>
-                    <input type="checkbox" name="in_file1" id="in_file1"/><label class="hidden_checkbox_lbl" for="in_file1">Записать вывод в файл</label>
+                    <label>Интервал между командами (sleep), с</label><input type="text" id="sleep1" size=1 value="1"/><br/>
+                    <input type="checkbox" id="in_file1"/><label class="hidden_checkbox_lbl" for="in_file1">Записать вывод в файл</label>
                 </div>
                 <div class="tab_content">
+                    <div class="item" id="scpServHandle" active>
+                        <div>Услуга "Мультифон ВАТС" (7048)</div>
+                        <input type = "radio" class = "hidden_radio" name = "scpServ" id="scpCheck" value = "service_status" checked>
+                        <label class = "hidden_radio_lbl" for = "scpCheck">Проверка</label>
+                        <input type = "radio" class = "hidden_radio" name = "scpServ" id="scpOn" value = "service_add">
+                        <label class = "hidden_radio_lbl" for = "scpOn">Включить</label>
+                        <input type = "radio" class = "hidden_radio" name = "scpServ" id="scpOff" value = "service_del">
+                        <label class = "hidden_radio_lbl" for = "scpOff">ВЫключить</label>
+                    </div>
+                    <div class="item" id="memcache">
+                        <div>Проверка наличия данных в memcache</div><input type="text" style="visibility: hidden;">
+                    </div>
+                    <div class="item" id="scp_mfb">
+                        <span>Команда mfbossi</span>
+                        <select id="mfb_type1">
+                            <option value ="1" selected>Изменить схему на SCP</option>
+                            <option value ="2">Изменить схему на Multifon</option>
+                            <option value ="3">Добавление в memcache (!!Внимание не запускать без sleep!!)</option>
+                            <option value ="4">Подключение 7048 + добавление в memcache</option>
+                            <option value ="5">Удаление из memcache</option>
+                            <option value ="6">Отключение 7048 + удаление из memcache</option>
+                            <option value ="7">Обновление branch (перед переводом на SCP)</option>
+                        </select>
+    
+                    </div>
+                    <div><label>Интервал между командами (sleep), с</label><input type="text" id="sleep2" size=1 value="1"/></div>
+                    <div><input type="checkbox" id="in_file2"/><label class="hidden_checkbox_lbl" for="in_file2">Записать вывод в файл</label></div>
 
                 </div>
             </div>
@@ -341,17 +368,19 @@
     <div class='window'>
         <img class='close' id='window_close' src='icons/close_40x40.png'>
         <div class='fieldset' id="nums_arrs">
-            <header>Выбор активных номеров <br/>из результатов команды <i>show customer</i></header>
-            <label>Users: </label><span id="uCount"></span><br/>
-            <textarea rows='10' id='users'></textarea>
-            <label>Inactive: </label><span id="iCount"></span><br/>
-            <textarea rows='5' id='inactive'></textarea>
-            <br/>
-            <div class='text_result' id="numArrs_result"></div>
-            <div class="hidden" id="aCount" style="margin: 10px"></div>
-            <div class="flex">
-                <div class="go hidden run_copy" id="run_copy5"><img src="/toolbox/icons/copy_40x40.png"/> Скопировать результат</div>
-            </div>
+            <form>
+                <header>Выбор активных номеров <br/>из результатов команды <i>show customer</i></header>
+                <label>Users: </label><span id="uCount"></span><br/>
+                <textarea rows='10' id='users'></textarea>
+                <label>Inactive: </label><span id="iCount"></span><br/>
+                <textarea rows='5' id='inactive'></textarea>
+                <br/>
+                <div class='text_result' id="numArrs_result"></div>
+                <div class="hidden" id="aCount" style="margin: 10px"></div>
+                <div class="flex">
+                    <div class="go hidden run_copy" id="run_copy5"><img src="/toolbox/icons/copy_40x40.png"/> Скопировать результат</div>
+                </div>
+            </form>
         </div>
     </div>
 

@@ -76,7 +76,8 @@ function audit() {
                 if (case_sens.checked) caseSens = "";
                 if (for_grep.value !== "") grep_str = " | grep  -" + caseSens + "E \"" + for_grep.value.trim() + "\"";
                 var tail = " # c " + dat_beg + " " + time_beg + " до " + dat_end + " " + time_end;
-                var result = "curl \"" + prefix + domain + "&f=" + ts_beg + "&t=" + ts_end + "\" | sed 's/\\],\\[\"/\\],\\n\\[\"/g'" + grep_str + tail;
+                // var result = "curl \"" + prefix + domain + "&f=" + ts_beg + "&t=" + ts_end + "\" | sed 's/\\],\\[\"/\\],\\n\\[\"/g'" + grep_str + tail;
+                var result = "curl \"" + prefix + domain + "&f=" + ts_beg + "&t=" + ts_end + "\" | sed -r 's/\\]\\,\\[\\\"([0-9])/\\]\\,\\n\\[\\\"\\1/g'" + grep_str + tail;
                 showResult("audit_result", ["clean","run_copy"], result);
             }
         }
@@ -252,7 +253,48 @@ function num_proc() {
                         sec_rnd = (srv == '7024') ? '; echo "Подождите..."; sleep 10; for i in ' + result_arr.join(out_sep) + suffix.replace("_phase1","_phase2") : "";
                         result = prefix + result_arr.join(out_sep) + suffix + sec_rnd;
                     }
-                    break;                    
+                    break;
+                case 4: //SCP
+                    if (document.getElementById("in_file2").checked) { 
+                        in_file_first = ' > result.xml';
+                        in_file_next = ' >> result.xml';
+                    };    
+                    out_sep = ' ';
+                    sleepVal = Math.floor(sleep2.value) > 0 ? '; sleep ' + Math.floor(sleep2.value) : "";
+                    if (document.getElementById("scpServHandle").hasAttribute("active")) {
+                        action = document.getElementById("scpServHandle").querySelector("[name='scpServ']:checked").value;
+                        var curl_7048 = 'curl "http://10.236.26.171/v1/OSA/'+action+'?ACCOUNT=VATS&MSISDN=$i&PWD='+_psw+'&SERVICE_ID=7048"';
+                        if (action=="service_status"){
+                            prefix = 'echo "<RESULT>"' + in_file_first + '; for i in ';
+                            var preCurl = 'echo "<SRV_7048>"' + in_file_next + '; ';
+                            var postCurl = in_file_next + '; echo "</SRV_7048>"' + in_file_next + '; ';
+                            suffix = '; do echo "<NUM_$i>"' + in_file_next + '; ' + preCurl + curl_7048 + postCurl + 'echo "</NUM_$i>"' + in_file_next + sleepVal + ';done; echo "</RESULT>"' + in_file_next;
+                        } else {
+                            prefix = 'echo "*Result*"' + in_file_first + '; for i in ';
+                            suffix = '; do echo "---$i---"' + in_file_next + '; '+ curl_7048 + in_file_next + sleepVal + '; echo "OK"' + in_file_next + '; done';
+                        }
+                        
+                    } else if (document.getElementById("memcache").hasAttribute("active")) {
+                        prefix = 'echo "*Result*"' + in_file_first + '; for i in ';
+                        var curl_mc = 'echo -n "$i - ";curl -s -o /tmp/null -w "%{http_code}" "http://10.50.194.49:6001/api/v1/$i";echo';
+                        suffix = '; do '+ curl_mc + in_file_next + sleepVal + '; done';
+                    } else if (document.getElementById("scp_mfb").hasAttribute("active")) {
+                        var mfb_cmd = [
+                            "mfbossi change schema work subscriber number $i schema scp",
+                            "mfbossi change schema work subscriber number $i schema multifon",
+                            "mfbossi direct add to scp telnum $i",
+                            "mfbossi direct connection scp telnum $i",
+                            "mfbossi direct delete to scp telnum $i",
+                            "mfbossi direct disable scp telnum $i",
+                            "mfbossi update branch subscriber $i"
+                        ];
+                        var cmdIdx = document.getElementById("mfb_type1").value-1;
+                        prefix = 'echo "*Result*"' + in_file_first + '; for i in ';
+                        suffix = '; do echo "---$i---"' + in_file_next + '; ' + mfb_cmd[cmdIdx] + in_file_next + sleepVal + '; echo "OK"' + in_file_next + '; done';
+                    }
+                    result = htmlspecialchars(prefix + result_arr.join(out_sep) + suffix);
+                    // document.getElementById("analize").style.display = "block";
+                    break;
             };
         };
         document.getElementById("numbers_count").innerHTML = "Всего номеров: " + result_arr.length;

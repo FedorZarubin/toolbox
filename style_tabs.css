@@ -69,7 +69,7 @@ input[type = "text"], input[type = "date"], input[type = "time"], select {
     font-size: 15;
     display: inline-block;
     margin: 5px;
-    height: 26px;
+    height: 28px;
 }
 input[type = "date"] {width: 135px;}
 input[type = "submit"], input[type = "button"], .hidden_radio:checked+label, 
