@@ -256,8 +256,8 @@ function num_proc() {
                     break;
                 case 4: //SCP
                     if (document.getElementById("in_file2").checked) { 
-                        in_file_first = ' > result.xml';
-                        in_file_next = ' >> result.xml';
+                        in_file_first = ' > result.txt';
+                        in_file_next = ' >> result.txt';
                     };    
                     out_sep = ' ';
                     sleepVal = Math.floor(sleep2.value) > 0 ? '; sleep ' + Math.floor(sleep2.value) : "";
@@ -265,6 +265,8 @@ function num_proc() {
                         action = document.getElementById("scpServHandle").querySelector("[name='scpServ']:checked").value;
                         var curl_7048 = 'curl "http://10.236.26.171/v1/OSA/'+action+'?ACCOUNT=VATS&MSISDN=$i&PWD='+_psw+'&SERVICE_ID=7048"';
                         if (action=="service_status"){
+                            in_file_first = ' > result.xml';
+                            in_file_next = ' >> result.xml';
                             prefix = 'echo "<RESULT>"' + in_file_first + '; for i in ';
                             var preCurl = 'echo "<SRV_7048>"' + in_file_next + '; ';
                             var postCurl = in_file_next + '; echo "</SRV_7048>"' + in_file_next + '; ';
@@ -276,7 +278,7 @@ function num_proc() {
                         
                     } else if (document.getElementById("memcache").hasAttribute("active")) {
                         prefix = 'echo "*Result*"' + in_file_first + '; for i in ';
-                        var curl_mc = 'echo -n "$i - ";curl -s -o /tmp/null -w "%{http_code}" "http://10.50.194.49:6001/api/v1/$i";echo';
+                        var curl_mc = 'echo -n "$i - "'+in_file_next+';curl -s -o /tmp/null -w "%{http_code}" "http://10.50.194.49:6001/api/v1/$i"'+in_file_next+';echo';
                         suffix = '; do '+ curl_mc + in_file_next + sleepVal + '; done';
                     } else if (document.getElementById("scp_mfb").hasAttribute("active")) {
                         var mfb_cmd = [
