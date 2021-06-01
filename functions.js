@@ -35,19 +35,21 @@ function audit() {
         domain = domain_name.value;
     } else domain = "vo.megafon.ru";
     var auditUrls = {
-        "193.201.230.183": "http://10.50.194.3:8084?domain=",
-        "193.201.230.178": "http://10.50.194.3:8084?domain=",
-        "195.9.78.70": "http://10.200.225.207:8080?domain=",
-        "185.2.224.12": "http://172.16.1.252:9080/?domain=",
-        "79.170.228.100": "http://10.100.0.1:8080/?domain=",
-        "91.247.60.40": "http://history0:8080/?domain=",
-        "109.69.176.249": "http://10.69.194.50:8080?domain=",
-        "188.186.156.140": "http://10.3.0.177:8081?domain=",
-        "5.3.4.140": "http://10.3.1.240:8081?domain=",
-        "80.67.213.60": "http://10.100.3.51:7080?domain=",
-        "81.95.224.170": "http://10.100.11.50:8080?domain=",
-        "185.2.115.250": "http://10.100.6.102:8080?domain=",
-        "109.69.177.187": "http://10.100.32.102:8080?domain="
+        "193.201.230.183": "http://10.50.194.3:8084?domain=", //vo
+        "193.201.230.178": "http://10.50.194.3:8084?domain=", //остальной МФ
+        "195.9.78.70": "http://10.200.225.207:8080?domain=", //МГТС
+        "185.2.224.12": "http://172.16.1.252:9080/?domain=", //Kcell
+        "79.170.228.100": "http://10.100.0.1:8080/?domain=", //Moldcell
+        "91.247.60.40": "http://history0:8080/?domain=", //Beeline.KG
+        "109.69.176.249": "http://10.69.194.50:8080?domain=", //DC1 Основной
+        "109.69.176.181": "http://10.69.194.50:8080?domain=", //ТТК
+        "94.100.85.34": "http://10.69.194.50:8080?domain=", //Virgin
+        "188.186.156.140": "http://10.3.0.177:8081?domain=", //ДомРу Европа
+        "5.3.4.140": "http://10.3.1.240:8081?domain=", //ДомРу Азия
+        "80.67.213.60": "http://10.100.3.51:7080?domain=", //Сиб. сети (norcom)
+        "81.95.224.170": "http://10.100.11.50:8080?domain=", //Sarkor
+        "185.2.115.250": "http://10.100.6.102:8080?domain=", //Poland
+        "109.69.177.187": "http://10.100.32.102:8080?domain=" //DC1 Centrex
     }
     $.post("aux_tools.php", {dn: domain},
         function (data) {
@@ -265,8 +267,10 @@ function num_proc() {
                         action = document.getElementById("scpServHandle").querySelector("[name='scpServ']:checked").value;
                         var curl_7048 = 'curl "http://10.236.26.171/v1/OSA/'+action+'?ACCOUNT=VATS&MSISDN=$i&PWD='+_psw+'&SERVICE_ID=7048"';
                         if (action=="service_status"){
-                            in_file_first = ' > result.xml';
-                            in_file_next = ' >> result.xml';
+                            if (document.getElementById("in_file2").checked) {
+                                in_file_first = ' > result.xml';
+                                in_file_next = ' >> result.xml';                                
+                            }
                             prefix = 'echo "<RESULT>"' + in_file_first + '; for i in ';
                             var preCurl = 'echo "<SRV_7048>"' + in_file_next + '; ';
                             var postCurl = in_file_next + '; echo "</SRV_7048>"' + in_file_next + '; ';
