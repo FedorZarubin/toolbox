@@ -44,8 +44,10 @@ function audit() {
         "109.69.176.249": "http://10.69.194.50:8080?domain=", //DC1 Основной
         "109.69.176.181": "http://10.69.194.50:8080?domain=", //ТТК
         "94.100.85.34": "http://10.69.194.50:8080?domain=", //Virgin
-        "188.186.156.140": "http://10.3.0.177:8081?domain=", //ДомРу Европа
-        "5.3.4.140": "http://10.3.1.240:8081?domain=", //ДомРу Азия
+        "188.186.156.137": "http://10.3.0.177:8081?domain=", //ДомРу Европа (admin-europe.domru.biz)
+        "188.186.156.140": "http://10.3.0.177:8081?domain=", //ДомРу Европа (остальные)
+        "5.3.4.137": "http://10.3.1.240:8081?domain=", //ДомРу Азия (admin-asia.domru.biz)
+        "5.3.4.140": "http://10.3.1.240:8081?domain=", //ДомРу Азия (остальные)
         "80.67.213.60": "http://10.100.3.51:7080?domain=", //Сиб. сети (norcom)
         "81.95.224.170": "http://10.100.11.50:8080?domain=", //Sarkor
         "185.2.115.250": "http://10.100.6.102:8080?domain=", //Poland
@@ -84,44 +86,7 @@ function audit() {
             }
         }
     );
-
-
-    // if (mf.checked) {
-    //   prefix = "http://10.50.194.3:8084?domain=";
-    //   var domain = "vo.megafon.ru";
-    // } else if (mgts.checked) {
-    //     prefix = "http://10.200.225.207:8080?domain=";
-    //     var domain = "admin.vats.mgts.ru";
-    // } else if (kc.checked) {
-    //     prefix = "http://172.16.1.252:9080/?domain=";
-    //     var domain = "vpbx.kcell.kz";
-    // } else if (mc.checked) {
-    //     prefix = "http://10.100.0.1:8080/?domain=";
-    //     var domain = "pbx.moldcell.md";
-    // } else if (bl.checked) {
-    //     prefix = "http://:8080/?domain=";
-    //     var domain = "ats.beeline.kg";
-    // } else if (dc.checked) {
-    //     prefix = "http://10.69.194.50:8080?domain=";
-    //     var domain = "ucdemo.enforta.ru";
-    // };
   }
-
-// $(function audit_placeholder() {
-//     $('.platform>label').click(function () {
-//         var type = $(this).attr("for");
-//         var ph = "";
-//         switch (type) {
-//             case "mf": ph = "vo.megafon.ru"; break;
-//             case "mgts": ph = "admin.vats.mgts.ru"; break;
-//             case "kc": ph = "vpbx.kcell.kz"; break;
-//             case "mc": ph = "pbx.moldcell.md"; break;
-//             case "bl": ph = "ats.beeline.kg"; break;
-//             case "dc": ph = "ucdemo.enforta.ru"; break;
-//         };
-//         $('#domain_name').attr("placeholder", ph);
-//     })
-// })
 
 function cleanForm(i) {
     $("#" + i).parent().siblings(".text_result").slideUp(300);
@@ -161,6 +126,7 @@ function num_proc() {
         });
         
         //вывод в нужном формате
+        document.getElementById("analize").removeAttribute("style");
         var result = "";
         var wrong_num = 0;
         var out_sep = "<br/>";
@@ -169,6 +135,7 @@ function num_proc() {
         var in_file_first = "";
         var in_file_next = "";
         var sleepVal = "";
+        var buttons = ["clean1","run_copy1"];
         
         for (i=0; i<result_arr.length; i++){
             if (result_arr[i].match(/Некорректный формат номера/) !== null) {
@@ -228,7 +195,7 @@ function num_proc() {
                         if (document.getElementById("7024").checked) curl_7024 = 'echo "<SRV_7024>"' + in_file_next + '; curl "http://10.236.26.171/v1/OSA/service_status?ACCOUNT=VATS&MSISDN=$i&PWD='+_psw+'&SERVICE_ID=7024"' + in_file_next + '; echo "</SRV_7024>"' + in_file_next + '; ';
                         suffix = '; do echo "<NUM_$i>"' + in_file_next + '; ' + curl_7005 + curl_7032 + curl_7024 + 'echo "</NUM_$i>"' + in_file_next + sleepVal + ';done; echo "</RESULT>"' + in_file_next;
                         result = htmlspecialchars(prefix + result_arr.join(out_sep) + suffix);
-                        document.getElementById("analize").style.display = "block";
+                        buttons.push("analize");
                     }
                     else if (document.getElementById("curl1").hasAttribute("active")) { //вкл/выкл услуги
                         if (document.getElementById("in_file1").checked) { 
@@ -275,6 +242,7 @@ function num_proc() {
                             var preCurl = 'echo "<SRV_7048>"' + in_file_next + '; ';
                             var postCurl = in_file_next + '; echo "</SRV_7048>"' + in_file_next + '; ';
                             suffix = '; do echo "<NUM_$i>"' + in_file_next + '; ' + preCurl + curl_7048 + postCurl + 'echo "</NUM_$i>"' + in_file_next + sleepVal + ';done; echo "</RESULT>"' + in_file_next;
+                            buttons.push("analize");
                         } else {
                             prefix = 'echo "*Result*"' + in_file_first + '; for i in ';
                             suffix = '; do echo "---$i---"' + in_file_next + '; '+ curl_7048 + in_file_next + sleepVal + '; echo "OK"' + in_file_next + '; done';
@@ -307,7 +275,7 @@ function num_proc() {
         document.getElementById("numbers_count").style.display = "block";
     } 
     else result = "<b>Введите номера в тектовое поле!</b>";
-    showResult("numbers_result",["clean1","run_copy1"],result)
+    showResult("numbers_result",buttons,result)
 }
 
 function utfConv () {
