@@ -723,7 +723,7 @@ function generatePromo (i) {
         essence = "of demo prolongation for "+demoExt+" days";
         var champNameTail = "demo_"+demoExt+"d";
     }
-    if (document.getElementById("offline").checked) {
+    if (document.getElementById("offline").checked&&(!document.getElementById("demo").checked||!document.getElementById("multiUse").checked)) {
         offline = " offline";
         toEmail = "to email '"+document.getElementById("promoEmail").value+"'";
         if (document.getElementById("promoEmail").value.match(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/)==null&&document.getElementById("singleUse").checked) errList.push("E-Mail");
